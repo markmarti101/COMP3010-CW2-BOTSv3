@@ -6,7 +6,7 @@ This repository contains a professional SOC-style investigation using Splunk and
 - `screenshots/` – Evidence images for each guided question
 - `queries/` – Saved SPL queries (optional but recommended)
 
-
+## Objectives
 The objectives of this investigation are:
 1. Install Splunk, ingest BOTSv3, and validate that data sources are searchable.
 2. Use SPL to answer one full set of 200-level guided questions with clear evidence (queries, screenshots, and reasoning).
@@ -14,3 +14,46 @@ The objectives of this investigation are:
 
 **Scope:** AWS service access, IAM activity, S3 bucket access controls/uploads, and endpoint OS/host anomalies.  
 **Assumptions:** Findings are derived only from the BOTSv3 dataset and reflect the simulated Frothly environment.
+
+---
+
+## Environment Setup and Data Validation
+
+### Splunk Environment
+Splunk Enterprise was used as the analysis platform. Splunk Web was accessed locally on port `8000` and searches were performed using the **Search & Reporting** app.
+
+### BOTSv3 Dataset Installation
+The BOTSv3 pre-indexed dataset archive (`botsv3_data_set.tar`) was extracted into Splunk’s apps directory and Splunk was restarted to load the dataset.
+
+### Dataset Validation
+To confirm the dataset loaded successfully, the following validation searches were used:
+- `index=botsv3 | stats count`
+- `index=botsv3 | stats count by sourcetype | sort -count`
+
+Evidence screenshots for setup and ingestion are stored in `screenshots/ingestion/`.
+
+---
+
+## Guided Questions (AWS / CloudTrail)
+
+### Q1 – IAM Users Accessing AWS Services
+**Task:** Identify IAM users that accessed an AWS service (successfully or unsuccessfully) in Frothly’s AWS environment.  
+**Data source:** `sourcetype=aws:cloudtrail`  
+**Approach:** Filter CloudTrail events to IAM users and list unique usernames.
+
+**SPL used:**
+```spl
+index=botsv3 sourcetype=aws:cloudtrail
+| search userIdentity.type=IAMUser
+| stats values(userIdentity.userName) as iam_users
+| eval iam_users=mvsort(iam_users)
+| eval iam_users=mvjoin(iam_users, ",")
+```
+
+Answer:
+```
+bstoll,btun,splunk_access,web_admin
+```
+
+
+
