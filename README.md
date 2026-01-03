@@ -50,10 +50,33 @@ index=botsv3 sourcetype=aws:cloudtrail
 | eval iam_users=mvjoin(iam_users, ",")
 ```
 
-Answer:
+####Answer:
 ```
 bstoll,btun,splunk_access,web_admin
 ```
+
+### Q2 – AWS API Activity Without MFA
+**Task:** Identify the CloudTrail field that can be used to alert on AWS API activity occurring without multi-factor authentication (MFA). Console login events were excluded as per the question guidance.  
+**Data source:** `sourcetype=aws:cloudtrail`
+
+#### Method
+AWS CloudTrail logs were analysed to identify MFA-related attributes associated with AWS API calls. A keyword search for MFA was performed and `ConsoleLogin` events were explicitly excluded to ensure only API-level activity was examined. The resulting events were inspected to determine which CloudTrail field records whether MFA was used during authentication.
+
+#### SPL Used
+```spl
+index=botsv3 sourcetype=aws:cloudtrail
+| search *MFA*
+| search NOT eventName=ConsoleLogin
+| table eventName userIdentity.sessionContext.attributes.mfaAuthenticated
+```
+
+####Answer:
+
+```
+userIdentity.sessionContext.attributes.mfaAuthenticated
+```
+
+
 
 
 
