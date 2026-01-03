@@ -1,0 +1,5 @@
+index=botsv3 sourcetype=aws:cloudtrail
+| search userIdentity.type=IAMUser
+| stats values(userIdentity.userName) as iam_users
+| eval iam_users=mvsort(iam_users)
+| eval iam_users=mvjoin(iam_users, ",")
