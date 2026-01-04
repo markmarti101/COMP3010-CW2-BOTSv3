@@ -95,7 +95,23 @@ index=botsv3 sourcetype=hardware
 Intel(R) Xeon(R) CPU E5-2676 v3 @ 2.40GHz
 ```
 
+### Q4 – Publicly Accessible S3 Bucket (PutBucketAcl)
 
+**Task:** Identify the event ID of the API call that enabled public access on an S3 bucket.  
+**Data source:** `sourcetype=aws:cloudtrail`  
+**Approach:** Search CloudTrail for the `PutBucketAcl` event, then inspect the event details to determine which ACL change introduced public permissions. Although multiple `PutBucketAcl` events exist, only one enabled public access.
+
+**SPL used:**
+```spl
+index=botsv3 sourcetype=aws:cloudtrail
+| search eventName=PutBucketAcl
+| table _time eventID eventName eventSource userIdentity.type userIdentity.userName userIdentity.sessionContext.sessionIssuer.userName requestParameters
+```
+
+####Answer:
+```
+ab45689d-69cd-41e7-8705-5350402cf7ac
+```
 
 
 
