@@ -1,0 +1,4 @@
+index=botsv3 sourcetype=aws:cloudtrail
+| search eventName=PutBucketAcl
+| table _time eventID eventName eventSource userIdentity.type userIdentity.userName userIdentity.sessionContext.sessionIssuer.userName requestParameters
+
