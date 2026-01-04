@@ -76,6 +76,25 @@ index=botsv3 sourcetype=aws:cloudtrail
 userIdentity.sessionContext.attributes.mfaAuthenticated
 ```
 
+### Q3 – Web Server Processor Information
+
+**Task:** Identify the processor number used on Frothly’s web servers.  
+**Data source:** `sourcetype=hardware`  
+**Approach:** Query hardware inventory data for web server hosts and extract CPU model information.
+
+**SPL used:**
+```spl
+index=botsv3 sourcetype=hardware
+| search host=gacrux*
+| table host cpu_type
+```
+
+####Answer:
+
+```
+Intel(R) Xeon(R) CPU E5-2676 v3 @ 2.40GHz
+```
+
 
 
 
