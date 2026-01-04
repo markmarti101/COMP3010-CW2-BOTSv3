@@ -1,0 +1,4 @@
+index=botsv3 sourcetype=hardware
+| search host=gacrux*
+| table host cpu_type
+
