@@ -1,0 +1,4 @@
+index=botsv3 sourcetype=aws:cloudtrail
+| search eventName=PutBucketAcl
+| table _time userIdentity.userName requestParameters.bucketName eventID
+
