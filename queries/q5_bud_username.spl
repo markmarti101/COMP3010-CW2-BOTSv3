@@ -1,0 +1,3 @@
+index=botsv3 sourcetype=aws:cloudtrail
+| search eventName=PutBucketAcl
+| stats values(userIdentity.userName) as usernames
