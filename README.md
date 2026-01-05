@@ -113,5 +113,24 @@ index=botsv3 sourcetype=aws:cloudtrail
 ab45689d-69cd-41e7-8705-5350402cf7ac
 ```
 
+### Q5 – Bud’s IAM Username
+**Task:** Identify the IAM username associated with Bud.
+
+**Data source:** `sourcetype=aws:cloudtrail`  
+**Approach:** Search CloudTrail events related to S3 ACL changes and extract the IAM username.
+
+**SPL used:**
+```spl
+index=botsv3 sourcetype=aws:cloudtrail
+| search eventName=PutBucketAcl
+| stats values(userIdentity.userName) as usernames
+```
+
+####Answer:
+```
+bstoll
+```
+
+
 
 
