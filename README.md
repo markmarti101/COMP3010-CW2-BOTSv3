@@ -131,6 +131,22 @@ index=botsv3 sourcetype=aws:cloudtrail
 bstoll
 ```
 
+### Q6 – Publicly Accessible S3 Bucket Name
+**Task:** Identify the name of the S3 bucket that was made publicly accessible.
 
+**Data source:** `sourcetype=aws:cloudtrail`  
+**Approach:** Locate the `PutBucketAcl` API call and extract the bucket name from the request parameters.
+
+**SPL used:**
+```spl
+index=botsv3 sourcetype=aws:cloudtrail
+| search eventName=PutBucketAcl
+| table _time userIdentity.userName requestParameters.bucketName eventID
+```
+
+####Answer:
+```
+frothlywebcode
+```
 
 
