@@ -1,0 +1,7 @@
+index=botsv3 sourcetype=WinHostMon Type=OperatingSystem
+| stats count by host OS
+| eventstats sum(count) as total_by_os by OS
+| where OS="Microsoft Windows 10 Enterprise"
+| eval fqdn=lower(host).".froth.ly"
+| table fqdn OS total_by_os
+
