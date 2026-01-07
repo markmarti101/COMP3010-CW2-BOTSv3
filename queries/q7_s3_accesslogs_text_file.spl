@@ -1,0 +1,7 @@
+index=botsv3 sourcetype="aws:s3:accesslogs" "REST.PUT.OBJECT"
+| rex field=_raw "^\S+\s+(?<bucket>\S+).+?\"PUT\s+(?<uri>/[^ ]+)\s+HTTP"
+| rex field=_raw "\"\s+(?<http_status>\d{3})\s"
+| search http_status IN ("200","204") bucket="frothlywebcode"
+| eval file=replace(uri,".*/","")
+| stats count by file
+| sort -count
