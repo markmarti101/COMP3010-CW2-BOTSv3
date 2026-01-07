@@ -149,4 +149,26 @@ index=botsv3 sourcetype=aws:cloudtrail
 frothlywebcode
 ```
 
+###Q7 – Text File Uploaded to Public S3 Bucket
+**Task**: Identify the text file that was successfully uploaded to the publicly accessible S3 bucket (frothlywebcode).
+
+**Data source**: sourcetype=aws:s3:accesslogs
+**Approach**: Filter S3 access logs for successful REST.PUT.OBJECT uploads (HTTP 200 or 204) to the bucket frothlywebcode. Extract the PUT URI from the raw log, derive the uploaded filename, and restrict results to .txt.
+
+**SPL used:**
+```spl
+index=botsv3 sourcetype="aws:s3:accesslogs" "REST.PUT.OBJECT"
+| rex field=_raw "^\S+\s+(?<bucket>\S+).+?\"PUT\s+(?<uri>/[^ ]+)\s+HTTP"
+| rex field=_raw "\"\s+(?<http_status>\d{3})\s"
+| search bucket="frothlywebcode" http_status IN ("200","204")
+| eval file=replace(uri,".*/","")
+| search file="*.txt"
+| table _time bucket http_status uri file
+| sort _time
+```
+
+####Answer:
+```
+OPEN_BUCKET_PLEASE_FIX.txt
+```
 
