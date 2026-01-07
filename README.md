@@ -172,3 +172,26 @@ index=botsv3 sourcetype="aws:s3:accesslogs" "REST.PUT.OBJECT"
 OPEN_BUCKET_PLEASE_FIX.txt
 ```
 
+###Q8 – Endpoint Running a Different Windows Operating System Edition
+
+**Task**: Identify the FQDN of the endpoint that is running a different Windows operating system edition than the other Windows hosts in the Frothly environment.
+**Data source**: sourcetype=WinHostMon
+
+**Approach**:
+To identify Windows operating system editions across endpoints, Windows host monitoring data was analysed using the winhostmon source type. Initial keyword searches for windows, operating system, and edition helped determine that OS inventory information is stored in Type=OperatingSystem events.
+The OS field within these events clearly indicates the Windows edition running on each host. By aggregating and counting operating system editions per host, and then summing counts per OS, the least common Windows edition was identified as an outlier. The host associated with this outlier OS was then converted to its fully qualified domain name (FQDN).
+
+**SPL used:**
+```spl
+index=botsv3 sourcetype=WinHostMon Type=OperatingSystem
+| stats count by host OS
+| eventstats sum(count) as total_by_os by OS
+| where OS="Microsoft Windows 10 Enterprise"
+| eval fqdn=lower(host).".froth.ly"
+| table fqdn OS total_by_os
+```
+
+####Answer:
+```
+bstoll-l.froth.ly
+```
