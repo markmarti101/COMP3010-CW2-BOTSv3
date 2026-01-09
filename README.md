@@ -1,29 +1,32 @@
-## Introduction
-This repository contains a professional SOC-style investigation using Splunk and the Boss of the SOC v3 (BOTSv3) dataset. BOTSv3 simulates a realistic security incident inside a fictitious company (“Frothly”) and includes logs from multiple sources. In this coursework I focus on AWS-related events (CloudTrail and S3 access logs) and selected endpoint telemetry to identify misconfigurations and suspicious activity, then document the investigation using Splunk SPL.
+## Overview
+
+The intention of this repository is to provide a professional SOC-style investigation through the usage of Splunk and the BOTSv3 (Boss of the SOC version 3) dataset. BOTSv3 acts as a simulation of a true security breach that has occurred inside a made-up company (“Frothly”). It incorporates logs that consist of many different sources. In this coursework, I have concentrated on AWS Events (CloudTrail and S3 Access Logs) along with endpoint telemetry, whereby my task is to analyse these logs for misconfigurations or suspicious activity and to document my investigation in the form of a report generated using the Splunk SPL (Search Processing Language).
 
 ## Repository Contents
-- `README.md` – Main report (this file)
-- `screenshots/` – Evidence images for each guided question
-- `queries/` – Saved SPL queries (optional but recommended)
 
-## Objectives
-The objectives of this investigation are:
-1. Install Splunk, ingest BOTSv3, and validate that data sources are searchable.
-2. Use SPL to answer one full set of 200-level guided questions with clear evidence (queries, screenshots, and reasoning).
-3. Reflect on SOC roles and incident handling processes (detection, analysis, response, recovery) based on what the BOTSv3 findings demonstrate.
+* README.md: The main deliverable for this project.
+* screenshots/: All the screenshots of the evidence collected in response to each of the guided 200-level questions.
+* queries/: A collection of saved SPL Queries that I created throughout my investigation (highly encouraged, but optional)
 
-**Scope:** AWS service access, IAM activity, S3 bucket access controls/uploads, and endpoint OS/host anomalies.  
-**Assumptions:** Findings are derived only from the BOTSv3 dataset and reflect the simulated Frothly environment.
+## Objectives 
 
----
+The objectives of this investigation are: 
+1. Install the Splunk Enterprise software, ingest the BOTSv3 data set and confirm all data sources are searchable.
+2. Use SPL to complete one complete set of 200-level guided questions, providing supporting evidence to my responses consisting of queries, screenshots, and reasoning.
+3. Evaluate the SOC Roles and Incident Handling (Detection, Analysis, Response and Recovery) processes based on the findings from the BOTSv3 dataset.
 
-## Environment Setup and Data Validation
+Scope: Access to AWS services (IAM) and access to and uploads into S3 buckets as well as OS/Host anomalies from endpoints.
+Assumptions: All information/data has been provided from the BOTSv3 dataset and is based on the environment created by the simulation of Frothly.
 
-### Splunk Environment
-Splunk Enterprise was used as the analysis platform. Splunk Web was accessed locally on port `8000` and searches were performed using the **Search & Reporting** app.
+## Environment Setup and Data Validation 
 
-### BOTSv3 Dataset Installation
-The BOTSv3 pre-indexed dataset archive (`botsv3_data_set.tar`) was extracted into Splunk’s apps directory and Splunk was restarted to load the dataset.
+## Splunk Environment 
+
+I used Splunk Enterprise as my analysis platform for completing the investigation. I accessed Splunk Web locally on Port 8000 and performed all my searches through the Search and Reporting app.
+
+## BOTSv3 Data Set Installation 
+
+I extracted the pre-indexed BOTSv3 dataset archive from the supplied `botsv3_data_set.tar` file into the apps directory of Splunk, then restarted Splunk to load the dataset into the application.
 
 ### Dataset Validation
 To confirm the dataset loaded successfully, the following validation searches were used:
@@ -32,7 +35,6 @@ To confirm the dataset loaded successfully, the following validation searches we
 
 Evidence screenshots for setup and ingestion are stored in `screenshots/ingestion/`.
 
----
 
 ## Guided Questions (AWS / CloudTrail)
 
@@ -195,3 +197,6 @@ index=botsv3 sourcetype=WinHostMon Type=OperatingSystem
 ```
 bstoll-l.froth.ly
 ```
+
+## Video Walkthrough
+YouTube video: https://www.youtube.com/watch?v=Uxsl3QHe_D0
